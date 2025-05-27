@@ -3,6 +3,7 @@
     const item = data.item;
     import {getUniquePropertyLabels, getPropertyValueByLabel} from '@digitalculture/ochre-sdk';
     import { Button } from "$lib/components/ui/button/index.js";
+    import * as Table from "$lib/components/ui/table/index.js";
 </script>
 <Button class = "m-5" href="/">Home</Button>
 <div class="mx-auto bg-white mb-10 p-5 max-w-xl rounded-xl">
@@ -11,18 +12,35 @@
     {/if}
     <h1 class="font-bold text-2xl text-center">{item.identification.label}</h1>
     <h2 class="text-lg italic text-center">{item.description}</h2>
-    {#each item.properties as property}
-        {#if getPropertyValueByLabel(item.properties, property.label)}
-            <p>{property.label}: {getPropertyValueByLabel(item.properties, property.label)}</p>
-        {/if}
-        {#if property.label == "Classification"}
-            {#if getPropertyValueByLabel(property.properties, "Object type")}
-                <p>Object Type: {getPropertyValueByLabel(property.properties, "Object type")}</p>
-                {#if getPropertyValueByLabel(property.properties[0].properties, "Part")}
-                    <p>Part: {getPropertyValueByLabel(property.properties[0].properties, "Part")}</p>
+    <Table.Root>
+        <Table.Body>
+            {#each item.properties as property}
+                {#if getPropertyValueByLabel(item.properties, property.label)}
+                    <Table.Row>
+                        <Table.Cell>
+                            {property.label}
+                        </Table.Cell>
+                        <Table.Cell>
+                            {getPropertyValueByLabel(item.properties, property.label)}
+                        </Table.Cell>
+                    </Table.Row>
                 {/if}
-            {/if}    
-        {/if}
-    {/each} 
+                {#if getUniquePropertyLabels(property.properties)}
+                    {#each getUniquePropertyLabels(property.properties) as subLabel}
+                        <Table.Row>
+                            <Table.Cell>
+                                <p class="ml-5">{subLabel}</p>    
+                            </Table.Cell>
+                            <Table.Cell>
+                                {getPropertyValueByLabel(property.properties, subLabel)}
+                            </Table.Cell>
+                        </Table.Row>
+                    {/each}
+                {/if}
+            {/each}
+        </Table.Body>
+    </Table.Root>
     
 </div>
+    
+
