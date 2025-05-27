@@ -9,7 +9,8 @@
     {#if item.image?.url}
         <img class="mb-10" src={item.image.url} alt={item.identification.label} />
     {/if}
-    <h1 class="font-bold text-2xl">{item.identification.label}</h1>
+    <h1 class="font-bold text-2xl text-center">{item.identification.label}</h1>
+    <h2 class="text-lg italic text-center">{item.description}</h2>
     {#each item.properties as property}
         {#if getPropertyValueByLabel(item.properties, property.label)}
             <p>{property.label}: {getPropertyValueByLabel(item.properties, property.label)}</p>

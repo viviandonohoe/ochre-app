@@ -12,6 +12,7 @@
         ? data.set.items : 
         data.set.items.filter((item) => {
             const searchLower = search.toLocaleLowerCase();
+            
             const nameMatch = item.identification.label.toLocaleLowerCase().includes(searchLower);
             return nameMatch
             }
